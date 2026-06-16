@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 import streamlit as st
-import newspaper
 import nltk
 from datetime import date
 import time
@@ -27,6 +26,13 @@ import nltk.data
 
 nltk.download('vader_lexicon', quiet=True)
 nltk.download('punkt', quiet=True)
+
+try:
+    import newspaper
+    NEWSPAPER_AVAILABLE = True
+except Exception:
+    newspaper = None
+    NEWSPAPER_AVAILABLE = False
 
 
 def flatten_yf_data(data):
@@ -806,43 +812,77 @@ with tabs[1]:
 
         url = st.text_input('', placeholder='Paste the URL of the article amd press Enter')
 
+        def fetch_article_text(url):
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            }
+            response = requests.get(url, headers=headers, timeout=15)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.text, "html.parser")
+
+            title = None
+            if soup.title and soup.title.string:
+                title = soup.title.string
+            og_title = soup.find('meta', property='og:title')
+            if og_title and og_title.get('content'):
+                title = og_title.get('content')
+
+            image_url = None
+            og_image = soup.find('meta', property='og:image')
+            if og_image and og_image.get('content'):
+                image_url = og_image.get('content')
+
+            paragraphs = [p.get_text(separator=' ', strip=True) for p in soup.find_all('p')]
+            text = '\n\n'.join([p for p in paragraphs if len(p) > 50])
+            if not text:
+                raise ValueError('Unable to extract article body from URL.')
+            return title, image_url, text
+
+        def simple_summary(text, sentence_count=5):
+            from nltk.tokenize import sent_tokenize
+            sentences = sent_tokenize(text)
+            if len(sentences) <= sentence_count:
+                return text
+            return ' '.join(sentences[:sentence_count])
+
         if url:
             try:
-                article = newspaper.Article(url)
+                if NEWSPAPER_AVAILABLE:
+                    article = newspaper.Article(url)
+                    article.download()
+                    article.parse()
+                    img = article.top_image
+                    title = article.title
+                    authors = article.authors
+                    article.nlp()
+                    keywords = article.keywords
+                    full_text = article.text
+                    summary = article.summary
+                else:
+                    title, img, full_text = fetch_article_text(url)
+                    authors = []
+                    keywords = []
+                    summary = simple_summary(full_text)
 
-                article.download()
-                # article.html
-                article.parse()
+                if img:
+                    st.image(img)
+                if title:
+                    st.subheader(title)
+                if authors:
+                    st.text(','.join(authors))
 
-                img = article.top_image
-                st.image(img)
-               
-                title = article.title
-                st.subheader(title)
-               
-                authors = article.authors
-                st.text(','.join(authors))
-               
-                article.nlp()
-
-                keywords = article.keywords
                 st.subheader('Keywords:')
-                st.write(', '.join(keywords))
-               
-                tab1, tab2= st.tabs(["Full Text", "Summary"])
+                st.write(', '.join(keywords) if keywords else 'No keywords available.')
+
+                tab1, tab2 = st.tabs(["Full Text", "Summary"])
                 with tab1:
-                    txt = article.text
-                    txt = txt.replace('Advertisement', '')
+                    txt = full_text.replace('Advertisement', '')
                     st.write(txt)
-               
                 with tab2:
                     st.subheader('Summary')
-                    summary = article.summary
-                    summary = summary.replace('Advertisement', '')
-                    st.write(summary)
-               
-            except:
-                st.error('Sorry something went wrong')
+                    st.write(summary.replace('Advertisement', ''))
+            except Exception as exc:
+                st.error(f"Sorry, something went wrong: {exc}")
 
 
 
