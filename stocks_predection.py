@@ -48,7 +48,7 @@ def load_html(file_path):
         st.markdown(f.read(), unsafe_allow_html=True)
 
 load_html("styles.html")
-st.markdown("<h1 style='text-align: center; color: white;'>FINANCIAL MARKET ANALYSES</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>FINANCIAL MARKET ANALYSES</h1>", unsafe_allow_html=True)
 
 
 
@@ -58,7 +58,7 @@ with tabs[0]:
     col1, col2 = st.columns([3,2])
 
     with col1:
-        st.markdown('<h2 style="color: white; text-align: right;">TOP TRENDING</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: right;">TOP TRENDING</h2>', unsafe_allow_html=True)
         url_hm = "https://finance.yahoo.com/most-active"
         try:
             _headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
@@ -139,14 +139,14 @@ with tabs[0]:
         except Exception:
             st.info("Could not load Top Losers — Yahoo Finance may have changed its structure.")
 
-    st.markdown('<h1 style="color: white; text-align: center;">LATEST NEWS</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 style=" text-align: center;">LATEST NEWS</h1>', unsafe_allow_html=True)
     st.write("____________")
 
     col1,col2=st.columns(2)
     with col1:
        
         image_url = 'https://tse1.mm.bing.net/th/id/OIP.DV4Jc_YsKrP8UVzgsssBxgHaBD?cb=thfc1falcon2&rs=1&pid=ImgDetMain&o=7&rm=3'
-        st.markdown(f'<div style="display: flex; justify-content: center; background-color: white; padding: 15px;"><img src="{image_url}" height="50"/></div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="display: flex; justify-content: center; background- padding: 15px;"><img src="{image_url}" height="50"/></div>', unsafe_allow_html=True)
         st.write("__________________")
 
         url = 'https://finance.yahoo.com/topic/latest-news/'
@@ -309,7 +309,7 @@ with tabs[1]:
             st.write(f"<span style='color:green; font-size: xx-large; font-weight: bold; text-align: center; display: block;'>{last_open_v}</span>", unsafe_allow_html=True)
 
 
-    st.markdown('<h2 style="color: white; text-align: center;">Time Series Analysis </h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style=" text-align: center;">Time Series Analysis </h2>', unsafe_allow_html=True)
     # data = data[data[dt].dt.dayofweek < 5]  # Garder seulement les jours de semaine
 
     fig = go.Figure()
@@ -319,7 +319,7 @@ with tabs[1]:
     st.plotly_chart(fig,use_container_width=True,height=900)
 
     def plot_stock_data():
-        st.markdown('<h2 style="color: white; text-align: center;">Candel-Stick  Pattern</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;">Candel-Stick  Pattern</h2>', unsafe_allow_html=True)
 
         fig = go.Figure(
             data=[
@@ -439,7 +439,7 @@ with tabs[1]:
     ####################################################
 
     def plot_RSI():
-        st.markdown('<h2 style="color: white; text-align: center;">Relative Strength Index</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;">Relative Strength Index</h2>', unsafe_allow_html=True)
         fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.2)
 
         # Add stock value subplot
@@ -462,7 +462,7 @@ with tabs[1]:
     ######################
 
     def plot_Mean_Average():
-        st.markdown('<h2 style="color: white; text-align: center;">Moving Averages</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;">Moving Averages</h2>', unsafe_allow_html=True)
 
         moving_average_types = st.multiselect("Select Moving Average Types", ["SMA", "EMA", "WMA", "DEMA", "TEMA"], default=["SMA"])
 
@@ -491,8 +491,8 @@ with tabs[1]:
 
 
     def MACD():
-        st.markdown('<h2 style="color: white; text-align: center;">MACD</h2>', unsafe_allow_html=True)
-        st.markdown('<h6 style="color: white; text-align: center;">Moving Averages Convergence Divergence</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;">MACD</h2>', unsafe_allow_html=True)
+        st.markdown('<h6 style=" text-align: center;">Moving Averages Convergence Divergence</h2>', unsafe_allow_html=True)
 
         macd, macd_signal, macd_hist = ta.MACD(data['Close'])
         colors = ['green' if value > 0 else 'red' for value in macd_hist]
@@ -518,7 +518,7 @@ with tabs[1]:
     MACD()
 
     def plot_BBANDS(data):
-        st.markdown('<h2 style="color: white; text-align: center;">Bollinger Bands</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;">Bollinger Bands</h2>', unsafe_allow_html=True)
 
         upper_band, middle_band, lower_band = ta.BBANDS(data["Close"])
         
@@ -542,7 +542,7 @@ with tabs[1]:
     plot_BBANDS(data)
 #####################################################################################################################################
 
-    st.markdown('<h1 style="color: White; text-align: center;">FORECASTING</h2>', unsafe_allow_html=True)
+    st.markdown('<h1 style=" text-align: center;">FORECASTING</h2>', unsafe_allow_html=True)
 
     n_years = st.slider("years of prediction:",1,4)
     period = n_years*365
@@ -558,7 +558,7 @@ with tabs[1]:
     future=m.make_future_dataframe(periods=period)
     forecast=m.predict(future)
 
-    st.markdown('<h3 style="color: White; text-align: center;">Forecast Data</h2>', unsafe_allow_html=True)
+    st.markdown('<h3 style=" text-align: center;">Forecast Data</h2>', unsafe_allow_html=True)
     st.write(forecast.tail())
     ##########
     fig_1=plot_plotly(m,forecast)
@@ -583,7 +583,7 @@ with tabs[1]:
         st.write("Mean Absolute Percentage Error (MAPE):", mape)
     #############################
     if select_period in ["2y", "5y","10y"]:
-        st.markdown('<h3 style="color: White; text-align: center;">Forecast Components</h2>', unsafe_allow_html=True)
+        st.markdown('<h3 style=" text-align: center;">Forecast Components</h2>', unsafe_allow_html=True)
         components_fig = m.plot_components(forecast)
         st.pyplot(components_fig, use_container_width=True)
 
@@ -627,7 +627,7 @@ with tabs[1]:
             x = x.reindex(columns=['symbol'] + [col for col in x.columns if col != 'symbol'])
 
             xx=(x.head(1))
-            st.markdown('<h2 style="color: White; text-align: center;">Performance Analyses </h2>', unsafe_allow_html=True)
+            st.markdown('<h2 style=" text-align: center;">Performance Analyses </h2>', unsafe_allow_html=True)
 
             # st.dataframe(xx)
             st.table(xx)
@@ -640,7 +640,7 @@ with tabs[1]:
 
             with col1:
                 with st.container(border=True):
-                    st.markdown('<h3 style="color: White; text-align: center;">• Performance •</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 style=" text-align: center;">• Performance •</h3>', unsafe_allow_html=True)
                     try:
                         st.markdown(f"<center><h4><font color='gray'>Name:<br></font> {details['longName']}</h4></center>", unsafe_allow_html=True)
                         st.markdown(f"<center><h4><font color='gray'>Sector:<br></font> {details['sector']}</h4></center>", unsafe_allow_html=True)
@@ -653,7 +653,7 @@ with tabs[1]:
 
             with col2:
                 with st.container(border=True):
-                    st.markdown('<h3 style="color: White; text-align: center;">• Performance Index •</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 style=" text-align: center;">• Performance Index •</h3>', unsafe_allow_html=True)
 
                     try:
                         st.markdown(f"<center><h4><font color='gray'>Earnings Growth:<br></font> {details['earningsGrowth']}</h4></center>", unsafe_allow_html=True)
@@ -668,7 +668,7 @@ with tabs[1]:
 
             with col3:
                 with st.container(border=True):
-                    st.markdown('<h3 style="color: White; text-align: center;">• Risk Score •</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 style=" text-align: center;">• Risk Score •</h3>', unsafe_allow_html=True)
                     try:
                         st.markdown(f"<center><h4><font color='gray'>Audit Risk:<br></font> {details['auditRisk']}</h4></center>", unsafe_allow_html=True)
                         st.markdown(f"<center><h4><font color='gray'>Board Risk:<br></font> {details['boardRisk']}</h4></center>", unsafe_allow_html=True)
@@ -680,7 +680,7 @@ with tabs[1]:
                    
             with col4:
                 with st.container(border=True):
-                    st.markdown('<h3 style="color: White; text-align: center;">• Dividend •</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 style=" text-align: center;">• Dividend •</h3>', unsafe_allow_html=True)
                     try:
                         st.markdown(f"<center><h4><font color='gray'>Dividend Rate:<br></font> {details['dividendRate'] }</h4></center>", unsafe_allow_html=True)
                         st.markdown(f"<center><h4><font color='gray'>Dividend Yield:<br></font> {details['dividendYield'] }</h4></center>", unsafe_allow_html=True)
@@ -708,7 +708,7 @@ with tabs[1]:
                 return "Neutral", confidence
 
         def main():
-            st.markdown('<h1 style="color: White; text-align: center;">Sentiment Analysis of News</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 style=" text-align: center;">Sentiment Analysis of News</h1>', unsafe_allow_html=True)
 
             # Use yfinance .news API — avoids 429 rate-limit from scraping the quote page
             ticker_obj = yf.Ticker(selec_stock)
@@ -730,7 +730,7 @@ with tabs[1]:
             col1, col2, col3 = st.columns([1.8, 0.2, 1])
             with col1:
                 with st.container(border=True):
-                    st.markdown('<h2 style="color: White; text-align: center;"> Article Sentiment Analysis</h2>', unsafe_allow_html=True)
+                    st.markdown('<h2 style=" text-align: center;"> Article Sentiment Analysis</h2>', unsafe_allow_html=True)
                     st.write("_________")
 
                     for article_text in headlines:
@@ -756,7 +756,7 @@ with tabs[1]:
 
             with col3:
                
-                st.markdown('<h2 style="color: White; text-align: center;"> Article Sentiment Analysis Count</h2>', unsafe_allow_html=True)
+                st.markdown('<h2 style=" text-align: center;"> Article Sentiment Analysis Count</h2>', unsafe_allow_html=True)
                 st.write("_________")
 
                 with st.container(border=True):
@@ -800,7 +800,7 @@ with tabs[1]:
                 color = 'green' if total_confidence_diff > 0 else 'red'
                 formatted_diff = f'<span style="color:{color}">{total_confidence_diff:.4f}</span>'
 
-                st.markdown('<h2 style="color: White; text-align: center;"> News Analyses Total Rate:</h2>', unsafe_allow_html=True)
+                st.markdown('<h2 style=" text-align: center;"> News Analyses Total Rate:</h2>', unsafe_allow_html=True)
 
                 st.markdown (f'<h1 style="text-align:center;"> {formatted_diff}</h1>', unsafe_allow_html=True)
 
@@ -808,7 +808,7 @@ with tabs[1]:
         main()
 
 
-        st.markdown('<h2 style="color: White; text-align: center;"> Article Summarizer</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style=" text-align: center;"> Article Summarizer</h2>', unsafe_allow_html=True)
 
         url = st.text_input('', placeholder='Paste the URL of the article amd press Enter')
 
@@ -892,7 +892,7 @@ with tabs[3]:
 
 
     # Set app title
-    st.markdown('<h1 style="color: white; text-align: center;">Portfolio Optimization</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 style=" text-align: center;">Portfolio Optimization</h1>', unsafe_allow_html=True)
     st.write("__________________")
 
 
@@ -984,7 +984,7 @@ with tabs[3]:
 
 
     # Plotting time series data
-    st.markdown('<h2 style="color: white; text-align: center;">Time Series Comparison </h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style=" text-align: center;">Time Series Comparison </h2>', unsafe_allow_html=True)
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=stock1_data.index, y=stock1_data['Close'], name=selected_stock1,line=dict(color='blue')))
@@ -1003,7 +1003,7 @@ with tabs[3]:
     fig.layout.update(xaxis_rangeslider_visible=True)
     st.plotly_chart(fig,use_container_width=True)
 
-    st.markdown("<h1 style='text-align: center; color: white;'>DESCRIPTIVE STATISTICS</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>DESCRIPTIVE STATISTICS</h1>", unsafe_allow_html=True)
     col1, col2,= st.columns([3, 3])
     with col1:
         descriptive_tables = []
@@ -1029,7 +1029,7 @@ with tabs[3]:
 
     stock1_data['Close_pct_change'] = stock1_data['Close'].pct_change() * 100
     stock2_data['Close_pct_change'] = stock2_data['Close'].pct_change() * 100
-    st.markdown('<h3 style="color: white; text-align: center;">Stock Prices Changes Over Time</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style=" text-align: center;">Stock Prices Changes Over Time</h3>', unsafe_allow_html=True)
 
     col1,col2=st.columns(2)
     with col1:
@@ -1058,7 +1058,7 @@ with tabs[3]:
 
             st.plotly_chart(fig_4,use_container_width=True)
 
-    st.markdown('<h3 style="color: white; text-align: center;">Box Plots</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style=" text-align: center;">Box Plots</h3>', unsafe_allow_html=True)
     col1, col2 ,col3,col4= st.columns(4)
     with col1:
         st.markdown(f"<h3 style='text-align: center;'>{selected_stock1}</h3>", unsafe_allow_html=True)
@@ -1081,7 +1081,7 @@ with tabs[3]:
             fig_box_4 = px.box(stock4_data, x=[selected_stock4]*len(stock4_data['Close']), y=stock4_data['Close'], points="all", color_discrete_sequence=['red'])
             st.plotly_chart(fig_box_4, use_container_width=True)
 
-    st.markdown('<h3 style="color: white; text-align: center;">Box log Plots per percentage</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style=" text-align: center;">Box log Plots per percentage</h3>', unsafe_allow_html=True)
     col1, col2 ,col3,col4= st.columns(4)
     with col1:
         st.markdown(f"<h3 style='text-align: center;'>{selected_stock1}</h3>", unsafe_allow_html=True)
@@ -1105,7 +1105,7 @@ with tabs[3]:
             st.plotly_chart(fig_box_4, use_container_width=True)
     col1 ,col2=st.columns(2)
     with col1:
-        st.markdown('<h3 style="color: white; text-align: center;">Box Plots Comparison</h3>', unsafe_allow_html=True)      
+        st.markdown('<h3 style=" text-align: center;">Box Plots Comparison</h3>', unsafe_allow_html=True)      
         fig_combined_box = go.Figure()
         fig_combined_box.add_trace(go.Box(x=[selected_stock1]*len(stock1_data['Close']),y=stock1_data['Close'],name=selected_stock1,marker_color='blue'))
 
@@ -1122,7 +1122,7 @@ with tabs[3]:
         fig_combined_box.update_layout(xaxis_title='Stocks', yaxis_title='Closing Price')
         st.plotly_chart(fig_combined_box, use_container_width=True)
     with col2:
-        st.markdown('<h3 style="color: white; text-align: center;">Box log Plots per percentage Comparison</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style=" text-align: center;">Box log Plots per percentage Comparison</h3>', unsafe_allow_html=True)
 
         comb_box_2 = go.Figure()
         # Add traces for each selected stock
@@ -1142,7 +1142,7 @@ with tabs[3]:
     # Create a correlation matrix
 
    
-    st.markdown('<h3 style="color: white; text-align: center;">Histogram Plots</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 style=" text-align: center;">Histogram Plots</h3>', unsafe_allow_html=True)
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown(f"<h3 style='text-align: center;'>{selected_stock1}</h3>", unsafe_allow_html=True)
@@ -1164,7 +1164,7 @@ with tabs[3]:
             st.markdown(f"<h3 style='text-align: center;'>{selected_stock4}</h3>", unsafe_allow_html=True)
             fig_hist_4 = px.histogram(stock4_data, x=np.log(1 + stock4_data['Close'].pct_change()), color_discrete_sequence=['red'])
             st.plotly_chart(fig_hist_4, use_container_width=True)
-    st.markdown('<h2 style="color: white; text-align: center;">Correlation </h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style=" text-align: center;">Correlation </h2>', unsafe_allow_html=True)
 
     if 'stock4_data' in locals():
         all_stock_data = pd.concat([
@@ -1193,7 +1193,7 @@ with tabs[3]:
 
     with col1:
            
-        st.markdown('<h3 style="color: white; text-align: center;">Pair plot </h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style=" text-align: center;">Pair plot </h3>', unsafe_allow_html=True)
        
         pairplot = px.scatter_matrix(all_stock_data)
         pairplot.update_yaxes(autorange="reversed")  
@@ -1203,7 +1203,7 @@ with tabs[3]:
         # st.write(all_stock_data)
        
     with col2:
-        st.markdown('<h3 style="color: white; text-align: center;">Matrix </h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style=" text-align: center;">Matrix </h3>', unsafe_allow_html=True)
         fig = go.Figure(data=go.Heatmap(z=correlation_matrix.values,x=correlation_matrix.columns,y=correlation_matrix.index,colorscale='Viridis'))
         fig.update_layout(xaxis_title='Stocks', yaxis_title='Stocks', yaxis=dict(autorange="reversed"))
         st.plotly_chart(fig)
@@ -1233,7 +1233,7 @@ with tabs[3]:
         return simulations_df
 
     # all_stock_data = all_stock_data
-    st.markdown('<h2 style="color: white; text-align: center;">SIMULATIONS RESULT</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style=" text-align: center;">SIMULATIONS RESULT</h2>', unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
 
